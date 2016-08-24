@@ -230,7 +230,7 @@ export const SeoForm = React.createClass( {
 
 		this.setState( {
 			isSubmittingForm: true,
-			isRefreshingSiteData: dirtyFields.has( 'seoTitleFormats' )
+			isRefreshingSiteData: dirtyFields.has( 'seoTitleFormats' ),
 		} );
 
 		// We need to be careful here and only
@@ -587,7 +587,6 @@ export const SeoForm = React.createClass( {
 
 const mapStateToProps = ( state, ownProps ) => {
 	const { site } = ownProps;
-	storedTitleFormats: getSeoTitleFormatsForSite( getSelectedSite( state ) ),
 	const isAdvancedSeoEligible = site && site.plan && hasBusinessPlan( site.plan );
 
 	return {
