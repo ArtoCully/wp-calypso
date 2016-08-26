@@ -82,14 +82,53 @@ class DomainToPlanNudge extends Component {
 
 		const { siteId, translate, storedCard } = this.props;
 		return (
-			<Card>
+			<Card className="domain-to-plan-nudge">
 				<QueryStoredCards />
-				<h3>{ translate( 'Upgrade to a Personal Plan and Save!' ) }</h3>
-				<Button
-					onClick={ this.oneClickUpgrade }
-					disabled={ ! storedCard } >
-					{ translate( 'One Click Checkout' ) }
-				</Button>
+
+				<div className="domain-to-plan-nudge__header">
+					<div className="domain-to-plan-nudge__header-icon">
+					</div>
+					<div className="domain-to-plan-nudge__header-copy">
+						<h3 className="domain-to-plan-nudge__header-title">
+							{ translate( 'Upgrade to a Personal Plan and Save!' ) }
+						</h3>
+						<ul className="domain-to-plan-nudge__header-features">
+							<li>
+								{ translate( 'Remove all WordPress.com advertising from your website' ) }
+							</li>
+							<li>
+								{ translate( 'Get high quality live chat and priority email support' ) }
+							</li>
+							<li>
+								{ translate( 'Upload up to 3GB of photos and videos' ) }
+							</li>
+							<li>
+								{ translate( 'Bundled with your domain for the best value!' ) }
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div className="domain-to-plan-nudge__actions-group">
+					<div className="domain-to-plan-nudge__discount-percentage">
+						Save 25%
+					</div>
+					{
+						// <PlanPrice>
+					}
+					<div className="domain-to-plan-nudge__plan-price-timeframe">
+						{ translate( 'for one year subscription' ) }
+					</div>
+					<div className="domain-to-plan-nudge__upgrade-group">
+						<Button
+							onClick={ this.oneClickUpgrade }
+							disabled={ ! storedCard } >
+							{ translate( 'Upgrade Now for xx.xx' ) }
+						</Button>
+						<div className="domain-to-plan-nudge__credit-card-info">
+							{ translate( 'Using credit card xxxx' ) }
+						</div>
+					</div>
+				</div>
 				<Button href={ `/checkout/${ siteId }/personal` }>
 					{ translate( 'Change CC' ) }
 				</Button>
