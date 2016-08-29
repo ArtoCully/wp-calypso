@@ -18,7 +18,7 @@ import { getSelectedSite, getSelectedSiteId } from 'state/ui/selectors';
 import { getPreviewUrl } from 'state/ui/preview/selectors';
 import { getSiteOption } from 'state/sites/selectors';
 import { getPreviewMarkup, getPreviewCustomizations, isPreviewUnsaved } from 'state/preview/selectors';
-import { closePreview } from 'state/ui/preview/actions';
+import { closePreview, setPreviewUrl } from 'state/ui/preview/actions';
 import DesignMenu from 'blocks/design-menu';
 import { getSiteFragment } from 'lib/route/path';
 import { getCurrentLayoutFocus } from 'state/ui/layout-focus/selectors';
@@ -54,6 +54,10 @@ export default function designPreview( WebPreview ) {
 		shouldReloadPreview( prevProps ) {
 			// If there is no markup or the site has changed, fetch it
 			if ( ! this.props.previewMarkup || this.props.selectedSiteId !== prevProps.selectedSiteId ) {
+				return true;
+			}
+			// If the URL has changed, fetch it
+			if ( this.props.previewUrl !== prevProps.previewUrl ) {
 				return true;
 			}
 			// Refresh the preview when it is being shown (since this component is
@@ -126,6 +130,7 @@ export default function designPreview( WebPreview ) {
 				return;
 			}
 			event.preventDefault();
+			this.props.setPreviewUrl( event.target.href );
 		}
 
 		render() {
@@ -208,6 +213,6 @@ export default function designPreview( WebPreview ) {
 
 	return connect(
 		mapStateToProps,
-		{ fetchPreviewMarkup, undoCustomization, closePreview, setLayoutFocus }
+		{ fetchPreviewMarkup, undoCustomization, closePreview, setLayoutFocus, setPreviewUrl }
 	)( localize( DesignPreview ) );
 }
