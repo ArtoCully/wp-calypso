@@ -33,11 +33,11 @@ function getDataForPreview( customizations = {} ) {
 	return postData;
 }
 
-export function fetchPreviewMarkup( site, slug, customizations ) {
+export function fetchPreviewMarkup( site, path, customizations ) {
 	return function( dispatch ) {
 		const postData = getDataForPreview( customizations );
-		debug( 'fetching preview markup', site, slug, customizations, 'postData', postData );
-		wpcom.undocumented().fetchPreviewMarkup( site, slug, postData )
+		debug( 'fetching preview markup', site, path, customizations, 'postData', postData );
+		wpcom.undocumented().fetchPreviewMarkup( site, path, postData )
 		.then( markup => dispatch( gotMarkup( site, markup ) ) )
 		.catch( error => {
 			dispatch( {
