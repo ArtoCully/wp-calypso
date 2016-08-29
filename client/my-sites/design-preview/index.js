@@ -14,7 +14,6 @@ import { localize } from 'i18n-calypso';
 import Gridicon from 'components/gridicon';
 import { fetchPreviewMarkup, undoCustomization } from 'state/preview/actions';
 import accept from 'lib/accept';
-import { updatePreviewWithChanges } from 'lib/design-preview';
 import { getSelectedSite, getSelectedSiteId } from 'state/ui/selectors';
 import { getPreviewUrl } from 'state/ui/preview/selectors';
 import { getSiteOption } from 'state/sites/selectors';
@@ -24,6 +23,7 @@ import DesignMenu from 'blocks/design-menu';
 import { getSiteFragment } from 'lib/route/path';
 import { getCurrentLayoutFocus } from 'state/ui/layout-focus/selectors';
 import { setLayoutFocus } from 'state/ui/layout-focus/actions';
+import SiteTitleCustomization from 'components/site-title-customization';
 
 const debug = debugFactory( 'calypso:design-preview' );
 
@@ -31,7 +31,6 @@ export default function designPreview( WebPreview ) {
 	class DesignPreview extends React.Component {
 		constructor( props ) {
 			super( props );
-			this.getCustomizations = this.getCustomizations.bind( this );
 			this.shouldReloadPreview = this.shouldReloadPreview.bind( this );
 			this.haveCustomizationsBeenRemoved = this.haveCustomizationsBeenRemoved.bind( this );
 			this.loadPreview = this.loadPreview.bind( this );
@@ -71,29 +70,24 @@ export default function designPreview( WebPreview ) {
 				this.loadPreview();
 			}
 			// Apply customizations as DOM changes
-			if ( this.getCustomizations() && this.previewDocument ) {
-				debug( 'updating preview with customizations', this.getCustomizations() );
-				updatePreviewWithChanges( this.previewDocument, this.getCustomizations() );
+			if ( this.props.customizations && this.previewDocument ) {
+				debug( 'updating preview with customizations', this.props.customizations );
 			}
 		}
 
 		shouldReloadPreview( prevProps ) {
-			const customizations = this.getCustomizations();
+			const customizations = this.props.customizations;
 			const prevCustomizations = prevProps.customizations || {};
 			return ( JSON.stringify( customizations.homePage ) !==
 				JSON.stringify( prevCustomizations.homePage ) );
 		}
 
-		getCustomizations() {
-			return this.props.customizations || {};
-		}
-
 		haveCustomizationsBeenRemoved( prevProps ) {
 			return ( this.props.previewMarkup &&
-				this.getCustomizations() &&
+				this.props.customizations &&
 				this.props.previewMarkup === prevProps.previewMarkup &&
 				prevProps.customizations &&
-				Object.keys( this.getCustomizations() ).length === 0 &&
+				Object.keys( this.props.customizations ).length === 0 &&
 				Object.keys( prevProps.customizations ).length > 0
 			);
 		}
@@ -102,8 +96,8 @@ export default function designPreview( WebPreview ) {
 			if ( ! this.props.selectedSite ) {
 				return;
 			}
-			debug( 'loading preview with customizations', this.getCustomizations() );
-			this.props.fetchPreviewMarkup( this.props.selectedSiteId, this.props.previewUrl, this.getCustomizations() );
+			debug( 'loading preview with customizations', this.props.customizations );
+			this.props.fetchPreviewMarkup( this.props.selectedSiteId, this.props.previewUrl, this.props.customizations );
 		}
 
 		undoCustomization() {
@@ -116,7 +110,7 @@ export default function designPreview( WebPreview ) {
 		}
 
 		onClosePreview() {
-			if ( this.getCustomizations() && this.props.isUnsaved ) {
+			if ( this.props.customizations && this.props.isUnsaved ) {
 				const unsavedMessage =
 					this.props.translate( 'You have unsaved changes. Are you sure you want to close the preview?' );
 				return accept( unsavedMessage, accepted => {
@@ -152,6 +146,11 @@ export default function designPreview( WebPreview ) {
 				return null;
 			}
 			const showSidebar = () => this.props.setLayoutFocus( 'preview-sidebar' );
+			const applyCustomizations = () => {
+				return (
+					<SiteTitleCustomization dom={ this.previewDocument } customization={ this.props.customizations.siteTitle } />
+				);
+			};
 
 			return (
 				<div>
@@ -176,6 +175,7 @@ export default function designPreview( WebPreview ) {
 							</span>
 						</button>
 					</WebPreview>
+					{ applyCustomizations() }
 				</div>
 			);
 		}
@@ -195,6 +195,10 @@ export default function designPreview( WebPreview ) {
 		closePreview: PropTypes.func.isRequired,
 		translate: PropTypes.func.isRequired,
 		setLayoutFocus: PropTypes.func.isRequired,
+	};
+
+	DesignPreview.defaultProps = {
+		customizations: {},
 	};
 
 	function mapStateToProps( state ) {
