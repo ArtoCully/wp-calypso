@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import page from 'page';
 import classnames from 'classnames';
 import get from 'lodash/get';
+import includes from 'lodash/includes';
 
 /**
  * Internal dependencies
@@ -15,7 +16,7 @@ import { clearCustomizations, fetchPreviewMarkup, saveCustomizations } from 'sta
 import { isPreviewUnsaved, getPreviewCustomizations } from 'state/preview/selectors';
 import { getSelectedSite, getSelectedSiteId } from 'state/ui/selectors';
 import { getActiveDesignTool } from 'state/ui/preview/selectors';
-import { setActiveDesignTool } from 'state/ui/preview/actions';
+import { setActiveDesignTool, closePreview } from 'state/ui/preview/actions';
 import accept from 'lib/accept';
 import designTool from './design-tool-data';
 import DesignToolList from './design-tool-list';
@@ -24,6 +25,7 @@ import DesignMenuPanel from './design-menu-panel';
 import DesignMenuHeader from './design-menu-header';
 import { getCurrentLayoutFocus } from 'state/ui/layout-focus/selectors';
 import { setLayoutFocus } from 'state/ui/layout-focus/actions';
+import { getSiteFragment } from 'lib/route/path';
 
 const WrappedSiteTitleControl = designTool( SiteTitleControl );
 
@@ -80,23 +82,25 @@ const DesignMenu = React.createClass( {
 			return;
 		}
 		if ( this.props.isUnsaved ) {
-			return accept( this.translate( 'You have unsaved changes. Are you sure you want to close the preview?' ), accepted => {
+			const unsavedMessage =
+				this.props.translate( 'You have unsaved changes. Are you sure you want to close the preview?' );
+			return accept( unsavedMessage, accepted => {
 				if ( accepted ) {
-					this.props.clearCustomizations( this.props.selectedSite.ID );
-					this.closeDesignMenu();
+					this.cleanAndClosePreview();
 				}
 			} );
 		}
-		this.props.clearCustomizations( this.props.selectedSite.ID );
-		this.closeDesignMenu();
+		this.cleanAndClosePreview();
 	},
 
-	closeDesignMenu() {
-		if ( ! this.props.selectedSite ) {
-			return;
+	cleanAndClosePreview() {
+		this.props.closePreview();
+		const siteFragment = getSiteFragment( page.current );
+		const isEmptyRoute = includes( page.current, '/customize' ) || includes( page.current, '/paladin' );
+		// If this route has nothing but the preview, redirect to somewhere else
+		if ( isEmptyRoute ) {
+			page.redirect( `/stats/${siteFragment}` );
 		}
-		const siteSlug = this.props.selectedSite.URL.replace( /^https?:\/\//, '' );
-		page( `/stats/${siteSlug}` );
 	},
 
 	renderActiveDesignTool() {
@@ -165,5 +169,5 @@ function mapStateToProps( state ) {
 
 export default connect(
 	mapStateToProps,
-	{ clearCustomizations, fetchPreviewMarkup, saveCustomizations, setActiveDesignTool, setLayoutFocus }
+	{ clearCustomizations, fetchPreviewMarkup, saveCustomizations, setActiveDesignTool, setLayoutFocus, closePreview }
 )( DesignMenu );
