@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import debugFactory from 'debug';
 import page from 'page';
 import includes from 'lodash/includes';
+import url from 'url';
 
 /**
  * Internal dependencies
@@ -89,7 +90,9 @@ export default function designPreview( WebPreview ) {
 				return;
 			}
 			debug( 'loading preview with customizations', this.props.customizations );
-			this.props.fetchPreviewMarkup( this.props.selectedSiteId, this.props.previewUrl, this.props.customizations );
+			// No leading slash allowed in pathname but we need a trailing slash
+			const path = this.props.previewUrl ? url.parse( this.props.previewUrl ).pathname.replace( /^\//, '' ) + '/' : null;
+			this.props.fetchPreviewMarkup( this.props.selectedSiteId, path, this.props.customizations );
 		}
 
 		undoCustomization() {
