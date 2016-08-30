@@ -84,6 +84,7 @@ class DomainToPlanNudge extends Component {
 		}
 
 		const { translate, storedCard } = this.props;
+
 		return (
 			<Card className="domain-to-plan-nudge">
 				<QueryStoredCards />
@@ -160,7 +161,7 @@ class DomainToPlanNudge extends Component {
 							{ translate( 'Upgrade Now for xx.xx' ) }
 						</Button>
 						<div className="domain-to-plan-nudge__credit-card-info">
-							{ translate( 'Using credit card xxxx' ) }
+							{ translate( 'Using credit card ****%s', { args: storedCard.card } ) }
 						</div>
 					</div>
 				</div>
