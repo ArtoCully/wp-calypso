@@ -28,6 +28,12 @@ import PlanIcon from 'components/plans/plan-icon';
 import Gridicon from 'components/gridicon';
 import { errorNotice, infoNotice, removeNotice } from 'state/notices/actions';
 import { getCurrentUserCurrencyCode } from 'state/current-user/selectors';
+import {
+	recordPurchase,
+	recordOrderInAtlas,
+	recordOrderInCriteo,
+	recordConversionInOneByAOL
+} from 'lib/analytics/ad-tracking';
 
 const debug = debugFactory( 'calypso:domain-to-plan-nudge' );
 
@@ -90,7 +96,13 @@ class DomainToPlanNudge extends Component {
 		}
 		const receiptId = data.receipt_id;
 
-		// TODO: ad tracking, do we need this?
+		// ad tracking
+		const product = { ...this.getCartItem(), currency: userCurrency, cost: 35.88, volume: 1 }; //TODO: pass through price
+		const cart = { products: [ product ], total_cost: 35.88, currency: userCurrency };
+		recordPurchase( product, receiptId );
+		recordOrderInAtlas( cart, receiptId );
+		recordOrderInCriteo( cart, receiptId );
+		recordConversionInOneByAOL();
 
 		// tracks
 		this.props.recordTracksEvent( 'calypso_checkout_payment_success', {
