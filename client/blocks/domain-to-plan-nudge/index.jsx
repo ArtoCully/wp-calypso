@@ -22,6 +22,8 @@ import QueryStoredCards from 'components/data/query-stored-cards';
 import { emptyCart } from 'lib/cart-values';
 import { add } from 'lib/cart-values/cart-items';
 import { submitTransaction } from 'lib/upgrades/actions/checkout';
+import PlanPrice from 'my-sites/plan-price';
+import PlanIcon from 'components/plans/plan-icon';
 
 const debug = debugFactory( 'calypso:domain-to-plan-nudge' );
 
@@ -87,6 +89,7 @@ class DomainToPlanNudge extends Component {
 
 				<div className="domain-to-plan-nudge__header">
 					<div className="domain-to-plan-nudge__header-icon">
+						<PlanIcon plan="personal-bundle" />
 					</div>
 					<div className="domain-to-plan-nudge__header-copy">
 						<h3 className="domain-to-plan-nudge__header-title">
@@ -108,13 +111,14 @@ class DomainToPlanNudge extends Component {
 						</ul>
 					</div>
 				</div>
-				<div className="domain-to-plan-nudge__actions-group">
+				<Card className="domain-to-plan-nudge__actions-group">
 					<div className="domain-to-plan-nudge__discount-percentage">
 						Save 25%
 					</div>
-					{
-						// <PlanPrice>
-					}
+					<div className="domain-to-plan-nudge__plan-price-group">
+						<PlanPrice rawPrice="35.88" original />
+						<PlanPrice rawPrice="29.88" discounted />
+					</div>
 					<div className="domain-to-plan-nudge__plan-price-timeframe">
 						{ translate( 'for one year subscription' ) }
 					</div>
@@ -128,7 +132,7 @@ class DomainToPlanNudge extends Component {
 							{ translate( 'Using credit card xxxx' ) }
 						</div>
 					</div>
-				</div>
+				</Card>
 				<Button href={ `/checkout/${ siteId }/personal` }>
 					{ translate( 'Change CC' ) }
 				</Button>
