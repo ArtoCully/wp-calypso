@@ -25,7 +25,31 @@
 	margin-top: 14px;
 }
 
-.domain-to-plan-nudge__actions-group.card {
+.domain-to-plan-nudge__actions-group {
 	display: flex;
-	margin: 24px -24px -24px;
+	justify-content: space-between;
+	margin: 0 -24px -24px;
+	padding: 13px 24px;
+	box-shadow: 0 -1px 0 0 transparentize( lighten( $gray, 20% ), .5 );
+}
+
+.domain-to-plan-nudge__plan-price-group {
+	display: flex;
+}
+
+.domain-to-plan-nudge__plan-price-timeframe,
+.domain-to-plan-nudge__credit-card-info {
+	font-size: 12px;
+	color: $gray;
+	white-space: nowrap;
+}
+
+.domain-to-plan-nudge__credit-card-info {
+	margin-top: 2px;
+	text-align: right;
+}
+
+.domain-to-plan-nudge__discount-percentage {
+	font-size: 12px;
+	text-transform: uppercase;
 }

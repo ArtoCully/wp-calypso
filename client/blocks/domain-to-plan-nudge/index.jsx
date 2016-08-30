@@ -111,28 +111,30 @@ class DomainToPlanNudge extends Component {
 						</ul>
 					</div>
 				</div>
-				<Card className="domain-to-plan-nudge__actions-group">
-					<div className="domain-to-plan-nudge__discount-percentage">
-						Save 25%
-					</div>
+				<div className="domain-to-plan-nudge__actions-group">
 					<div className="domain-to-plan-nudge__plan-price-group">
+						<div className="domain-to-plan-nudge__discount-percentage">
+							Save 25%
+						</div>
 						<PlanPrice rawPrice="35.88" original />
 						<PlanPrice rawPrice="29.88" discounted />
-					</div>
-					<div className="domain-to-plan-nudge__plan-price-timeframe">
-						{ translate( 'for one year subscription' ) }
+						<div className="domain-to-plan-nudge__plan-price-timeframe">
+							{ translate( 'for one year subscription' ) }
+						</div>
 					</div>
 					<div className="domain-to-plan-nudge__upgrade-group">
 						<Button
 							onClick={ this.oneClickUpgrade }
-							disabled={ ! storedCard } >
+							disabled={ ! storedCard }
+							primary
+						>
 							{ translate( 'Upgrade Now for xx.xx' ) }
 						</Button>
 						<div className="domain-to-plan-nudge__credit-card-info">
 							{ translate( 'Using credit card xxxx' ) }
 						</div>
 					</div>
-				</Card>
+				</div>
 			</Card>
 		);
 	}
