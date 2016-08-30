@@ -2,3 +2,30 @@
 	box-shadow: 0 0 0 1px transparentize( lighten( $gray, 20% ), .5 ),
 		0 1px 2px lighten( $gray, 30% ), 0 -3px 0 0 $alert-yellow;
 }
+
+.domain-to-plan-nudge__header {
+	display: flex;
+}
+
+.domain-to-plan-nudge__header-icon {
+	width: 58px;
+	height: 58px;
+}
+
+.domain-to-plan-nudge__header-copy {
+	margin-left: 20px;
+}
+
+.domain-to-plan-nudge__header-title {
+	font-size: 22px;
+	color: $blue-wordpress;
+}
+
+.domain-to-plan-nudge__header-features {
+	margin-top: 14px;
+}
+
+.domain-to-plan-nudge__actions-group.card {
+	display: flex;
+	margin: 24px -24px -24px;
+}

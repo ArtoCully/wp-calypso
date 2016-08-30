@@ -82,7 +82,7 @@ class DomainToPlanNudge extends Component {
 			return null;
 		}
 
-		const { siteId, translate, storedCard } = this.props;
+		const { translate, storedCard } = this.props;
 		return (
 			<Card className="domain-to-plan-nudge">
 				<QueryStoredCards />
@@ -133,9 +133,6 @@ class DomainToPlanNudge extends Component {
 						</div>
 					</div>
 				</Card>
-				<Button href={ `/checkout/${ siteId }/personal` }>
-					{ translate( 'Change CC' ) }
-				</Button>
 			</Card>
 		);
 	}
