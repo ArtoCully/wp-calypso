@@ -52,4 +52,26 @@
 .domain-to-plan-nudge__discount-percentage {
 	font-size: 12px;
 	text-transform: uppercase;
+	border-radius: 3px 0 0 3px;
+	background-color: #4ab866;
+	width: 74px;
+	height: 18px;
+	color: $white;
+	letter-spacing: 1px;
+	padding: 3px 0;
+	text-align: right;
+	position: relative;
+	margin-right: 24px;
+
+	&:after {
+		content:"";
+		width: 0;
+		height: 0;
+		border-left: 14px solid $alert-green;
+		border-top: 12px solid transparent;
+		border-bottom: 12px solid transparent;
+		position: absolute;
+		top: 0;
+		right: -14px;
+	}
 }
