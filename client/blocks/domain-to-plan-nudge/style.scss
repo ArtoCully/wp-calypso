@@ -22,7 +22,20 @@
 }
 
 .domain-to-plan-nudge__header-features {
-	margin-top: 14px;
+	margin: 14px 0 30px 0;
+	list-style: none;
+}
+
+.domain-to-plan-nudge__header-features-item {
+	position: relative;
+	padding: 8px 0 0 28px;
+}
+
+.domain-to-plan-nudge__header-features-item-checkmark.gridicon {
+	position: absolute;
+	left: 0;
+	top: 8px;
+	fill: $alert-green;
 }
 
 .domain-to-plan-nudge__actions-group {

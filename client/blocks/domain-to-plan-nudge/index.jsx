@@ -24,6 +24,7 @@ import { add } from 'lib/cart-values/cart-items';
 import { submitTransaction } from 'lib/upgrades/actions/checkout';
 import PlanPrice from 'my-sites/plan-price';
 import PlanIcon from 'components/plans/plan-icon';
+import Gridicon from 'components/gridicon';
 
 const debug = debugFactory( 'calypso:domain-to-plan-nudge' );
 
@@ -97,16 +98,44 @@ class DomainToPlanNudge extends Component {
 						</h3>
 						<ul className="domain-to-plan-nudge__header-features">
 							<li>
-								{ translate( 'Remove all WordPress.com advertising from your website' ) }
+								<div className="domain-to-plan-nudge__header-features-item">
+									<Gridicon
+										className="domain-to-plan-nudge__header-features-item-checkmark"
+										icon="checkmark"
+										size="22"
+									/>
+									{ translate( 'Remove all WordPress.com advertising from your website' ) }
+								</div>
 							</li>
 							<li>
-								{ translate( 'Get high quality live chat and priority email support' ) }
+								<div className="domain-to-plan-nudge__header-features-item">
+									<Gridicon
+										className="domain-to-plan-nudge__header-features-item-checkmark"
+										icon="checkmark"
+										size="22"
+									/>
+									{ translate( 'Get high quality live chat and priority email support' ) }
+								</div>
 							</li>
 							<li>
-								{ translate( 'Upload up to 3GB of photos and videos' ) }
+								<div className="domain-to-plan-nudge__header-features-item">
+									<Gridicon
+										className="domain-to-plan-nudge__header-features-item-checkmark"
+										icon="checkmark"
+										size="22"
+									/>
+									{ translate( 'Upload up to 3GB of photos and videos' ) }
+								</div>
 							</li>
 							<li>
-								{ translate( 'Bundled with your domain for the best value!' ) }
+								<div className="domain-to-plan-nudge__header-features-item">
+									<Gridicon
+										className="domain-to-plan-nudge__header-features-item-checkmark"
+										icon="checkmark"
+										size="22"
+									/>
+									{ translate( 'Bundled with your domain for the best value!' ) }
+								</div>
 							</li>
 						</ul>
 					</div>
