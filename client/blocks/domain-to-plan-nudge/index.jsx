@@ -34,6 +34,9 @@ import {
 	recordOrderInCriteo,
 	recordConversionInOneByAOL
 } from 'lib/analytics/ad-tracking';
+import { getPlanRawPrice } from 'state/plans/selectors';
+import { getPlanDiscountPrice } from 'state/sites/plans/selectors';
+import QuerySitePlans from 'components/data/query-site-plans';
 
 const debug = debugFactory( 'calypso:domain-to-plan-nudge' );
 
@@ -64,11 +67,16 @@ class DomainToPlanNudge extends Component {
 	}
 
 	getCartItem() {
+		const {
+			productSlug,
+			productId
+		} = this.props;
+
 		return {
+			productId,
+			productSlug,
 			free_trial: false,
-			is_domain_registration: false,
-			product_id: plansList[ PLAN_PERSONAL ].getProductId(),
-			product_slug: PLAN_PERSONAL
+			is_domain_registration: false
 		};
 	}
 
@@ -151,11 +159,20 @@ class DomainToPlanNudge extends Component {
 		}
 
 		const { isSubmitting } = this.state;
-		const { translate, storedCard } = this.props;
+
+		const {
+			translate,
+			storedCard,
+			rawPrice,
+			discountPrice,
+			siteId
+		} = this.props;
 
 		return (
 			<Card className="domain-to-plan-nudge">
 				<QueryStoredCards />
+
+				{ siteId && <QuerySitePlans siteId={ siteId } /> }
 
 				<div className="domain-to-plan-nudge__header">
 					<div className="domain-to-plan-nudge__header-icon">
@@ -214,8 +231,10 @@ class DomainToPlanNudge extends Component {
 						<div className="domain-to-plan-nudge__discount-percentage">
 							Save 25%
 						</div>
-						<PlanPrice rawPrice="35.88" original />
-						<PlanPrice rawPrice="29.88" discounted />
+
+						<PlanPrice rawPrice={ rawPrice } original />
+						<PlanPrice rawPrice={ discountPrice } discounted />
+
 						<div className="domain-to-plan-nudge__plan-price-timeframe">
 							{ translate( 'for one year subscription' ) }
 						</div>
@@ -226,8 +245,9 @@ class DomainToPlanNudge extends Component {
 							disabled={ ! storedCard || isSubmitting }
 							primary
 						>
-							{
-								isSubmitting ? translate( 'Completing your purchase' ) : translate( 'Upgrade Now for xx.xx' )
+							{ isSubmitting
+								? translate( 'Completing your purchase' )
+								: translate( 'Upgrade Now for %d', { args: discountPrice } )
 							}
 						</Button>
 						<div className="domain-to-plan-nudge__credit-card-info">
@@ -242,8 +262,14 @@ class DomainToPlanNudge extends Component {
 
 export default connect(
 	( state, props ) => {
-		const siteId = props.siteId || getSelectedSiteId( state );
+		const siteId = props.siteId || getSelectedSiteId( state ),
+			productSlug = PLAN_PERSONAL,
+			productId = plansList[ PLAN_PERSONAL ].getProductId();
+
 		return {
+			siteId,
+			productSlug,
+			productId,
 			hasFreePlan: isCurrentSitePlan(
 				state,
 				siteId,
@@ -251,8 +277,9 @@ export default connect(
 			),
 			storedCard: get( getStoredCards( state ), '0' ),
 			site: getSite( state, siteId ),
-			siteId,
-			userCurrency: getCurrentUserCurrencyCode( state ) //populated by either plans endpoint
+			userCurrency: getCurrentUserCurrencyCode( state ), //populated by either plans endpoint
+			rawPrice: getPlanRawPrice( state, productId, true ),
+			discountPrice: getPlanDiscountPrice( state, siteId, productSlug, true )
 		};
 	},
 	{
