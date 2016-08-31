@@ -37,6 +37,7 @@ import {
 import { getPlanRawPrice } from 'state/plans/selectors';
 import { getPlanDiscountPrice, getPlansBySiteId } from 'state/sites/plans/selectors';
 import QuerySitePlans from 'components/data/query-site-plans';
+import formatCurrency from 'lib/format-currency';
 
 const debug = debugFactory( 'calypso:domain-to-plan-nudge' );
 
@@ -174,8 +175,9 @@ class DomainToPlanNudge extends Component {
 			translate,
 			storedCard,
 			rawPrice,
-			discountPrice,
-			siteId
+			discountRawPrice,
+			siteId,
+			userCurrency
 		} = this.props;
 
 		return (
@@ -242,8 +244,16 @@ class DomainToPlanNudge extends Component {
 							Save 25%
 						</div>
 
-						<PlanPrice rawPrice={ rawPrice } original />
-						<PlanPrice rawPrice={ discountPrice } discounted />
+						<PlanPrice
+							rawPrice={ rawPrice }
+							currencyCode={ userCurrency }
+							original
+						/>
+						<PlanPrice
+							rawPrice={ discountRawPrice }
+							currencyCode={ userCurrency }
+							discounted
+						/>
 
 						<div className="domain-to-plan-nudge__plan-price-timeframe">
 							{ translate( 'for one year subscription' ) }
@@ -257,7 +267,9 @@ class DomainToPlanNudge extends Component {
 						>
 							{ isSubmitting
 								? translate( 'Completing your purchase' )
-								: translate( 'Upgrade Now for %d', { args: discountPrice } )
+								: translate( 'Upgrade Now for %s', {
+									args: formatCurrency( discountRawPrice, userCurrency )
+								} )
 							}
 						</Button>
 						<div className="domain-to-plan-nudge__credit-card-info">
@@ -289,7 +301,7 @@ export default connect(
 			site: getSite( state, siteId ),
 			userCurrency: getCurrentUserCurrencyCode( state ), //populated by either plans endpoint
 			rawPrice: getPlanRawPrice( state, productId, true ),
-			discountPrice: getPlanDiscountPrice( state, siteId, productSlug, true ),
+			discountRawPrice: getPlanDiscountPrice( state, siteId, productSlug, true ),
 			sitePlans: getPlansBySiteId( state, siteId )
 		};
 	},
