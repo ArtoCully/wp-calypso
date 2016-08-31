@@ -301,8 +301,8 @@ export default connect(
 			storedCard: get( getStoredCards( state ), '0' ),
 			site: getSite( state, siteId ),
 			userCurrency: getCurrentUserCurrencyCode( state ), //populated by either plans endpoint
-			rawPrice: getPlanRawPrice( state, productId, true ),
-			discountRawPrice: getPlanDiscountPrice( state, siteId, productSlug, true ),
+			rawPrice: getPlanRawPrice( state, productId ),
+			discountRawPrice: getPlanDiscountPrice( state, siteId, productSlug ),
 			sitePlans: getPlansBySiteId( state, siteId )
 		};
 	},
