@@ -177,7 +177,8 @@ class DomainToPlanNudge extends Component {
 			rawPrice,
 			discountRawPrice,
 			siteId,
-			userCurrency
+			userCurrency,
+			productSlug
 		} = this.props;
 
 		return (
@@ -188,7 +189,7 @@ class DomainToPlanNudge extends Component {
 
 				<div className="domain-to-plan-nudge__header">
 					<div className="domain-to-plan-nudge__header-icon">
-						<PlanIcon plan="personal-bundle" />
+						<PlanIcon plan={ productSlug } />
 					</div>
 					<div className="domain-to-plan-nudge__header-copy">
 						<h3 className="domain-to-plan-nudge__header-title">
@@ -200,7 +201,7 @@ class DomainToPlanNudge extends Component {
 									<Gridicon
 										className="domain-to-plan-nudge__header-features-item-checkmark"
 										icon="checkmark"
-										size="22"
+										size={ 24 }
 									/>
 									{ translate( 'Remove all WordPress.com advertising from your website' ) }
 								</div>
@@ -210,7 +211,7 @@ class DomainToPlanNudge extends Component {
 									<Gridicon
 										className="domain-to-plan-nudge__header-features-item-checkmark"
 										icon="checkmark"
-										size="22"
+										size={ 24 }
 									/>
 									{ translate( 'Get high quality live chat and priority email support' ) }
 								</div>
@@ -220,7 +221,7 @@ class DomainToPlanNudge extends Component {
 									<Gridicon
 										className="domain-to-plan-nudge__header-features-item-checkmark"
 										icon="checkmark"
-										size="22"
+										size={ 24 }
 									/>
 									{ translate( 'Upload up to 3GB of photos and videos' ) }
 								</div>
@@ -230,7 +231,7 @@ class DomainToPlanNudge extends Component {
 									<Gridicon
 										className="domain-to-plan-nudge__header-features-item-checkmark"
 										icon="checkmark"
-										size="22"
+										size={ 24 }
 									/>
 									{ translate( 'Bundled with your domain for the best value!' ) }
 								</div>
