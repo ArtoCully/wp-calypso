@@ -35,7 +35,7 @@ import {
 	recordConversionInOneByAOL
 } from 'lib/analytics/ad-tracking';
 import { getPlanRawPrice } from 'state/plans/selectors';
-import { getPlanDiscountPrice } from 'state/sites/plans/selectors';
+import { getPlanDiscountPrice, getPlansBySiteId } from 'state/sites/plans/selectors';
 import QuerySitePlans from 'components/data/query-site-plans';
 
 const debug = debugFactory( 'calypso:domain-to-plan-nudge' );
@@ -60,10 +60,20 @@ class DomainToPlanNudge extends Component {
 	};
 
 	isVisible() {
-		const { site, hasFreePlan } = this.props;
-		return site &&			//site exists
-			site.wpcom_url &&   //has a mapped domain
-			hasFreePlan;        //has a free wpcom plan
+		const {
+			site,
+			hasFreePlan,
+			sitePlans,
+			storedCard,
+			rawPrice
+		} = this.props;
+
+		return sitePlans.hasLoadedFromServer &&
+			storedCard &&
+			rawPrice &&
+			site &&           //site exists
+			site.wpcom_url && //has a mapped domain
+			hasFreePlan;      //has a free wpcom plan
 	}
 
 	getCartItem() {
@@ -279,7 +289,8 @@ export default connect(
 			site: getSite( state, siteId ),
 			userCurrency: getCurrentUserCurrencyCode( state ), //populated by either plans endpoint
 			rawPrice: getPlanRawPrice( state, productId, true ),
-			discountPrice: getPlanDiscountPrice( state, siteId, productSlug, true )
+			discountPrice: getPlanDiscountPrice( state, siteId, productSlug, true ),
+			sitePlans: getPlansBySiteId( state, siteId )
 		};
 	},
 	{
