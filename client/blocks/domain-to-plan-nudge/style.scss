@@ -39,17 +39,27 @@
 }
 
 .domain-to-plan-nudge__actions-group {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
 	margin: 0 -24px -24px;
-	padding: 13px 24px;
+	padding: 24px;
 	box-shadow: 0 -1px 0 0 transparentize( lighten( $gray, 20% ), .5 );
+
+	@include breakpoint( ">960px" ) {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+
+		padding: 13px 24px;
+	}
+
 }
 
 .domain-to-plan-nudge__plan-price-group {
 	display: flex;
 	align-items: center;
+
+	@include breakpoint( "<960px" ) {
+		justify-content: center;
+	}
 }
 
 .domain-to-plan-nudge__plan-price-timeframe,
@@ -57,11 +67,6 @@
 	font-size: 12px;
 	color: $gray;
 	white-space: nowrap;
-}
-
-.domain-to-plan-nudge__credit-card-info {
-	margin-top: 2px;
-	text-align: right;
 }
 
 .domain-to-plan-nudge__discount-percentage {
@@ -88,5 +93,21 @@
 		position: absolute;
 		top: 0;
 		right: -14px;
+	}
+}
+
+.domain-to-plan-nudge__upgrade-group {
+	@include breakpoint( "<960px" ) {
+		text-align: center;
+		margin-top: 30px;
+	}
+}
+
+.domain-to-plan-nudge__credit-card-info {
+	margin-top: 2px;
+	text-align: center;
+
+	@include breakpoint( ">960px" ) {
+		text-align: right;
 	}
 }
