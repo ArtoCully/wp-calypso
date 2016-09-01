@@ -12,6 +12,7 @@ import includes from 'lodash/includes';
  * Internal dependencies
  */
 import RootChild from 'components/root-child';
+import { localize } from 'i18n-calypso';
 import { clearCustomizations, fetchPreviewMarkup, saveCustomizations } from 'state/preview/actions';
 import { isPreviewUnsaved, getPreviewCustomizations } from 'state/preview/selectors';
 import { getSelectedSite, getSelectedSiteId } from 'state/ui/selectors';
@@ -43,6 +44,7 @@ const DesignMenu = React.createClass( {
 		fetchPreviewMarkup: React.PropTypes.func.isRequired,
 		saveCustomizations: React.PropTypes.func.isRequired,
 		setActiveDesignTool: React.PropTypes.func.isRequired,
+		translate: React.PropTypes.func.isRequired,
 	},
 
 	getDefaultProps() {
@@ -107,7 +109,7 @@ const DesignMenu = React.createClass( {
 		switch ( this.props.activeDesignToolId ) {
 			case 'siteTitle':
 				return (
-					<DesignMenuPanel label={ this.translate( 'Title and Tagline' ) }>
+					<DesignMenuPanel label={ this.props.translate( 'Title and Tagline' ) }>
 						<WrappedSiteTitleControl previewDataKey="siteTitle" />
 					</DesignMenuPanel>
 				);
@@ -170,4 +172,4 @@ function mapStateToProps( state ) {
 export default connect(
 	mapStateToProps,
 	{ clearCustomizations, fetchPreviewMarkup, saveCustomizations, setActiveDesignTool, setLayoutFocus, closePreview }
-)( DesignMenu );
+)( localize( DesignMenu ) );
