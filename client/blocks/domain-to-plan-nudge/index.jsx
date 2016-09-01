@@ -35,7 +35,11 @@ import {
 	recordConversionInOneByAOL
 } from 'lib/analytics/ad-tracking';
 import { getPlanRawPrice } from 'state/plans/selectors';
-import { getPlanDiscountPrice, getPlansBySiteId } from 'state/sites/plans/selectors';
+import {
+	getPlanDiscountedRawPrice,
+	getPlanRawDiscount,
+	getPlansBySiteId
+} from 'state/sites/plans/selectors';
 import QuerySitePlans from 'components/data/query-site-plans';
 import formatCurrency from 'lib/format-currency';
 
@@ -175,7 +179,8 @@ class DomainToPlanNudge extends Component {
 			translate,
 			storedCard,
 			rawPrice,
-			discountRawPrice,
+			discountedRawPrice,
+			rawDiscount,
 			siteId,
 			userCurrency,
 			productSlug
@@ -241,8 +246,8 @@ class DomainToPlanNudge extends Component {
 				</div>
 				<div className="domain-to-plan-nudge__actions-group">
 					<div className="domain-to-plan-nudge__plan-price-group">
-						<div className="domain-to-plan-nudge__discount-percentage">
-							Save 25%
+						<div className="domain-to-plan-nudge__discount-value">
+							{ formatCurrency( rawDiscount, userCurrency ) }
 						</div>
 
 						<PlanPrice
@@ -251,7 +256,7 @@ class DomainToPlanNudge extends Component {
 							original
 						/>
 						<PlanPrice
-							rawPrice={ discountRawPrice }
+							rawPrice={ discountedRawPrice }
 							currencyCode={ userCurrency }
 							discounted
 						/>
@@ -269,7 +274,7 @@ class DomainToPlanNudge extends Component {
 							{ isSubmitting
 								? translate( 'Completing your purchase' )
 								: translate( 'Upgrade Now for %s', {
-									args: formatCurrency( discountRawPrice, userCurrency )
+									args: formatCurrency( discountedRawPrice, userCurrency )
 								} )
 							}
 						</Button>
@@ -302,7 +307,8 @@ export default connect(
 			site: getSite( state, siteId ),
 			userCurrency: getCurrentUserCurrencyCode( state ), //populated by either plans endpoint
 			rawPrice: getPlanRawPrice( state, productId ),
-			discountRawPrice: getPlanDiscountPrice( state, siteId, productSlug ),
+			discountedRawPrice: getPlanDiscountedRawPrice( state, siteId, productSlug ),
+			rawDiscount: getPlanRawDiscount( state, siteId, productSlug ),
 			sitePlans: getPlansBySiteId( state, siteId )
 		};
 	},
