@@ -354,7 +354,7 @@ function recordOrderInCriteo( cart, orderId ) {
 	recordInCriteo( 'viewBasket', {
 		id: orderId,
 		currency: cart.currency,
-		items: cartToCriteoItems( cart )
+		item: cartToCriteoItems( cart )
 	} );
 }
 
@@ -372,7 +372,7 @@ function recordViewCheckoutInCriteo( cart ) {
 	// Note that unlike `recordOrderInCriteo` above, this doesn't include the order id
 	recordInCriteo( 'viewBasket', {
 		currency: cart.currency,
-		items: cartToCriteoItems( cart )
+		item: cartToCriteoItems( cart )
 	} );
 }
 
