@@ -16,9 +16,10 @@ var MediaActions = require( 'lib/media/actions' ),
 	ListItem = require( './list-item' ),
 	ListNoResults = require( './list-no-results' ),
 	ListNoContent = require( './list-no-content' ),
-	ListPlanPromo = require( './list-plan-promo' ),
 	InfiniteList = require( 'components/infinite-list' ),
 	user = require( 'lib/user' )();
+
+import ListPlanPromo from './list-plan-promo';
 
 module.exports = React.createClass( {
 	displayName: 'MediaLibraryList',
@@ -199,7 +200,7 @@ module.exports = React.createClass( {
 
 		if ( this.props.filterRequiresUpgrade ) {
 			return (
-				<ListPlanPromo site={ this.props.site } filter={ this.props.filter } />
+				<ListPlanPromo />
 			);
 		}
 

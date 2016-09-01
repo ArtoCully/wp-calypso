@@ -147,6 +147,12 @@ export const plansList = {
 			FEATURE_WORDADS_INSTANT,
 			FEATURE_VIDEO_UPLOADS
 		],
+		getPromotedFeatures: () => [
+			FEATURE_CUSTOM_DOMAIN,
+			FEATURE_NO_ADS,
+			FEATURE_ADVANCED_DESIGN,
+			FEATURE_13GB_STORAGE
+		],
 		getBillingTimeFrame: () => i18n.translate( 'per month, billed yearly' )
 	},
 
