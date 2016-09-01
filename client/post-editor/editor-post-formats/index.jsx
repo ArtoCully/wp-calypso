@@ -117,7 +117,7 @@ export default React.createClass( {
 	render: function() {
 		return (
 			<AccordionSection>
-				<EditorThemeHelp className="editor-post-formats__help-link" />
+				<EditorThemeHelp />
 				<ul className="editor-post-formats">
 					{ this.renderPostFormats() }
 				</ul>

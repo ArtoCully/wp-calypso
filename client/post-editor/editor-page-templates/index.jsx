@@ -78,7 +78,7 @@ class EditorPageTemplates extends Component {
 				{ size( templates ) > 1 && (
 					<AccordionSection>
 						<EditorDrawerLabel labelText={ translate( 'Page Template' ) }>
-							<EditorThemeHelp className="editor-page-templates__help-link" />
+							<EditorThemeHelp />
 							<SelectDropdown selectedText={ this.getSelectedTemplateText() }>
 								{ map( templates, ( { file, label } ) => (
 									/* eslint-disable react/jsx-no-bind */

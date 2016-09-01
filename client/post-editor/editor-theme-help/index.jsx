@@ -8,6 +8,8 @@ import { localize } from 'i18n-calypso';
 /**
  * Internal dependencies
  */
+import Gridicon from 'components/gridicon';
+import Button from 'components/button';
 import { getSelectedSiteId } from 'state/ui/selectors';
 import { getSiteThemeShowcasePath } from 'state/sites/selectors';
 
@@ -25,9 +27,9 @@ class EditorThemeHelp extends PureComponent {
 		}
 
 		return (
-			<a className={ className } href={ themeHelpPath }>
-				{ translate( 'Need help setting up your site?' ) }
-			</a>
+			<Button className={ className } compact borderless href={ themeHelpPath }>
+				<Gridicon icon="help-outline" /> { translate( 'Need help setting up your site?' ) }
+			</Button>
 		);
 	}
 }
