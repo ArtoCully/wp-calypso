@@ -101,12 +101,20 @@ var TransactionStepsMixin = {
 						adTracking.recordConversionInOneByAOL();
 					}
 
+					const paymentMethod = this.props.transaction.payment.paymentMethod;
+
 					analytics.tracks.recordEvent( 'calypso_checkout_payment_success', {
 						coupon_code: cartValue.coupon,
 						currency: cartValue.currency,
-						payment_method: this.props.transaction.payment.paymentMethod,
+						payment_method: paymentMethod,
 						total_cost: cartValue.total_cost
 					} );
+					analytics.ga.recordEvent(
+						'Checkout',
+						'calypso_checkout_payment_success',
+						`total_cost: ${ cartValue.total_cost } curr: ${ cartValue.currency }` +
+							` coupon_code: ${ cartValue.coupon } payment_method: ${ paymentMethod }`
+					);
 
 					cartValue.products.forEach( function( cartItem ) {
 						analytics.tracks.recordEvent( 'calypso_checkout_product_purchase', cartItem );
