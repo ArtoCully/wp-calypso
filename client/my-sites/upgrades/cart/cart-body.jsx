@@ -22,10 +22,6 @@ var CartBody = React.createClass( {
 	},
 
 	render: function() {
-		if ( ! this.props.cart.hasLoadedFromServer ) {
-			return <div className="cart-body">{ this.translate( 'Loading…', { context: 'Upgrades: Loading cart' } ) }</div>;
-		}
-
 		return (
 			<div className="cart-body">
 				<CartItems
