@@ -53,7 +53,15 @@ const SignupActions = {
 	},
 
 	processedSignupStep( step, errors, providedDependencies ) {
-		analytics.tracks.recordEvent( 'calypso_signup_actions_complete_step', { step: step.stepName } );
+		const { stepName } = step;
+
+		analytics.tracks.recordEvent( 'calypso_signup_actions_complete_step', { step: stepName } );
+
+		if ( stepName === 'survey-user' ) {
+			// Fire after a new user registers.
+			analytics.tracks.recordEvent( 'calypso_user_registration_complete' );
+			analytics.ga.recordEvent( 'Signup', 'calypso_user_registration_complete' );
+		}
 
 		Dispatcher.handleViewAction( {
 			type: 'PROCESSED_SIGNUP_STEP',
