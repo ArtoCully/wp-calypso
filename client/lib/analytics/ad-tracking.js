@@ -172,6 +172,17 @@ function retarget() {
 }
 
 /**
+ * A generic function that we can export and call to track plans page views with our ad partners
+ */
+function retargetViewPlans() {
+	if ( ! config.isEnabled( 'ad-tracking' ) ) {
+		return;
+	}
+
+	recordPlansViewInCriteo();
+}
+
+/**
  * Records that an item was added to the cart
  *
  * @param {Object} cartItem - The item added to the cart
@@ -393,6 +404,19 @@ function cartToCriteoItems( cart ) {
 }
 
 /**
+ * Records in Criteo that the visitor viewed the plans page
+ */
+function recordPlansViewInCriteo() {
+	if ( ! config.isEnabled( 'ad-tracking' ) ) {
+		return;
+	}
+
+	recordInCriteo( 'viewItem', {
+		item: '1'
+	} );
+}
+
+/**
  * Records an event in Criteo
  *
  * @param {String} eventName - The name of the 'event' property such as 'viewItem' or 'viewBasket'
@@ -498,6 +522,7 @@ module.exports = {
 		nextFunction();
 	},
 
+	retargetViewPlans,
 	recordAddToCart,
 	recordViewCheckout,
 	recordPurchase,
